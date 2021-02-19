@@ -121,3 +121,6 @@ public:
     }
 };
 ```
+Time: O(N)
+Space: o(N)
+
