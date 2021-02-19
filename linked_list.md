@@ -110,3 +110,30 @@ public:
 
 - Time: O(N+M)
 - Memory: O(N)
+
+# Лист с закольцованным участком
+https://leetcode.com/problems/linked-list-cycle-ii/
+Решение в лоб
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        std::unordered_set<ListNode*> hash;
+        ListNode* curr = head;
+        while (curr){
+            if (hash.find(curr) != hash.end())
+                return curr;
+            hash.insert(curr);
+            curr = curr->next;
+        }
+           
+        return nullptr;
+    }
+};
