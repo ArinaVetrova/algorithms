@@ -1,13 +1,6 @@
 # Linked list
 
-# Reverse linked list
-https://leetcode.com/problems/reverse-linked-list/
-
-- Что сделать: реверсировать односвязный список
-
-- Как: создаем 2 доп указателя - предыдущий и следующий. Запоминаем следующий --> у head перенаправляем указатель next на предыдущий 
---> предыдущий == head --> head == следущий, который запомнили ранее. 
-
+```
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -18,6 +11,16 @@ https://leetcode.com/problems/reverse-linked-list/
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+ ```
+ 
+# Reverse linked list
+https://leetcode.com/problems/reverse-linked-list/
+
+- Что сделать: реверсировать односвязный список
+
+- Как: создаем 2 доп указателя - предыдущий и следующий. Запоминаем следующий --> у head перенаправляем указатель next на предыдущий 
+--> предыдущий == head --> head == следущий, который запомнили ранее. 
+```
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
@@ -32,6 +35,7 @@ public:
         return prev;
     }
 };
+```
 
 Какие делала ошибки при попытке самостоят решения:
 - получались закольцованные указатели ( не использовала доп. указатели для хранения временных величин)
@@ -45,14 +49,7 @@ https://leetcode.com/problems/intersection-of-two-linked-lists/
  - Как: пройтись по двум спискам и сравнить каждый узел 
  
  Это плохое решение в лоб  
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
+ 
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
@@ -79,14 +76,7 @@ public:
 
 Решение поизящнее 
 - Как: проходимся по одному из списков и переписываем его в хэш-таблицу(set) --> проходимся по второму списку и если есть такой элемент в hash table, то возвращаем его
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
+```
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
@@ -107,21 +97,14 @@ public:
     return nullptr;
     }
 };
-
+```
 - Time: O(N+M)
 - Memory: O(N)
 
 # Лист с закольцованным участком
 https://leetcode.com/problems/linked-list-cycle-ii/
 Решение в лоб
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
+```
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
@@ -137,3 +120,4 @@ public:
         return nullptr;
     }
 };
+```
