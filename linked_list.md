@@ -35,5 +35,78 @@ public:
 
 Какие делала ошибки при попытке самостоят решения:
 - получались закольцованные указатели ( не использовала доп. указатели для хранения временных величин)
-- использовала head++, была ошибка
+- использовала head++, это ошибка, ведь linked list - не последовательный контейнер и арифметика указателей тут не применима
 
+
+# Intersection linked lists
+https://leetcode.com/problems/intersection-of-two-linked-lists/
+Решила сама ^.^
+ - Что: найти узел, начиная с которого листы сливаются
+ - Как: пройтись по двум спискам и сравнить каждый узел 
+ 
+ Это плохое решение в лоб  
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode* tmpA = headA; ListNode* tmpB = headB;
+        while (headB)
+        {
+            tmpA=headA;
+            while (tmpA)
+            {
+                if (tmpA == headB)
+                    return tmpA;
+                tmpA = tmpA->next;
+            }
+            headB = headB->next;
+        }
+
+        return nullptr;
+    }
+};
+
+- Time: O(NxM)
+- Memory: O(1)
+
+
+Решение поизящнее 
+- Как: проходимся по одному из списков и переписываем его в хэш-таблицу(set) --> проходимся по второму списку и если есть такой элемент в hash table, то возвращаем его
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        std::unordered_set<ListNode*> hashB;
+       while (headB)
+       {
+           hashB.insert(headB);
+           headB = headB->next;
+       }
+    
+        while (headA)
+        {
+            if (hashB.find(headA) != hashB.end()) 
+                return headA;
+            headA = headA->next;
+        }
+        
+    return nullptr;
+    }
+};
+
+- Time: O(N+M)
+- Memory: O(N)
