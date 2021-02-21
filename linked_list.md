@@ -124,3 +124,26 @@ public:
 Time: O(N)
 Space: o(N)
 
+Решение "Кролик и черепаха"
+Как: один узел шагает медленно -  смотрит на след узел, а второй бежит вперед и смотрит через узел, если в списке есть цикл, черепаха и кролик сравняются в одной из точек
+
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+        
+        while(fast->next)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+            if (fast == slow)
+                return slow->next;
+        }
+           
+        return nullptr;
+    }
+};
+
+Time: O(N)
+Space: O(1)
