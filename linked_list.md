@@ -147,3 +147,63 @@ public:
 
 Time: O(N)
 Space: O(1)
+
+
+# Палиндром односвязный список
+Палиндром - слово или фраза, которая одинаково читается с конца и с начала.
+https://leetcode.com/problems/palindrome-linked-list/
+
+Что: Given a singly linked list, determine if it is a palindrome. Input: 1->2->2->1  Output: true
+
+- Итеративный алгоритм
+Как: переписываем лист в вектор, идем одновременно с начала и конца и сравниваем элементы. Если на какой-то итерации не равны - не палиндром.
+```
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        std::vector<int> v;
+        ListNode* curr = head;
+        while (curr)
+        {
+            v.push_back(curr->val);
+            curr = curr->next;
+        }
+        
+        for (int i=0, j = v.size()-1 ; i<v.size()/2; i++,j--)
+        {
+            if (v[i] != v[j])
+                return false;
+        }
+        return true;
+    }
+};
+```
+Time: O(N+N/2) --> O(N), т.к. при оценке сложности константы опускаются
+Space: O(N)
+
+- Рекурсивный алгоритм
+Как: 
+```
+class Solution {
+public:
+    ListNode* p_front;
+    bool recursiveCheck(ListNode* curr){
+        if (curr){
+            if (!recursiveCheck(curr->next))
+                return false;
+            if (curr->val != p_front->val)
+                return false;
+            
+            p_front = p_front->next;
+        }
+        return true;
+    }
+    
+    bool isPalindrome(ListNode* head) {
+        p_front = head;
+        return recursiveCheck(head);
+    }
+};
+```
+Time: O(N)
+Space: O(N) (новую память не занимаем. но она занята из-за особенности вызова рекурсивных функций, т.к. пока алгоритм идет вглубь рекурсии, в программе зранится весь стек вызовов и данные вызвавших ф-ций
