@@ -363,7 +363,7 @@ Merge two sorted linked lists and return it as a sorted list. The list should be
 
 - Рекурсивный алгоритм
 Как: 
-
+```
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
@@ -382,12 +382,13 @@ public:
         }
     }
 };
-
+```
 Time: O(N+M)
 Space: O(n + m)O(n+m)
 The first call to mergeTwoLists does not return until the ends of both l1 and l2 have been reached, so n + mn+m stack frames consume O(n + m)O(n+m) space.
 
 - Итеративный алгоритм
+```
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
@@ -417,6 +418,6 @@ public:
         return prehead->next;
     }
 };
-
+```
 Time: O(N+M)
 Space: O(1)
