@@ -269,6 +269,36 @@ public:
 };
 ```
 
+# Middle of the Linked List
+https://leetcode.com/problems/middle-of-the-linked-list/
+1. Как: переписать в вектор и вернуть его средний эл-т
+```
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        vector<ListNode*> A = {head};
+        while (A.back()->next != NULL)
+            A.push_back(A.back()->next);
+        return A[A.size() / 2];
+    }
+};
+```
+2. Как: по методу "кролика и черепахи"
+Кролик бежит по узлам в 2 раза быстрее, поэтому, когда он достигнет конца списка, черепаха будет в середине.
+```
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while (fast && fast->next)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+    }
+```
 # Reorder list
 https://leetcode.com/problems/reorder-list/
 
@@ -283,7 +313,7 @@ You may not modify the values in the list's nodes, only nodes itself may be chan
 2. Разворачиваем вторую половину листа
 3. Сливаем полученные листы в духе сортировки слиянием
 
-
+```
 class Solution {
 public:
 	void reorderList(ListNode* head) {
@@ -317,4 +347,4 @@ public:
 		}      
 	}
 };
-
+```
