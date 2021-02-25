@@ -212,7 +212,7 @@ Space: O(N) (новую память не занимаем. но она заня
 https://leetcode.com/problems/remove-nth-node-from-end-of-list/
 - Наивный алгоритм
 Как: We notice that the problem could be simply reduced to another one : Remove the (L - n + 1)(L−n+1) th node from the beginning in the list , where LL is the list length. This problem is easy to solve once we found list length L
-
+```
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
@@ -237,13 +237,13 @@ public:
         return dummy->next;
     }
 };
-
+```
 Time: O(N)
 Space: O(1)
 
 - Решить за 1 проход
 Как: берем 2 указателя. Первый перемещаем на n+1 от начала, второй - на начале. Т.о. м-ж указателями разница в n узлов. Когда первый узел достигает конца, второй окажется на n-том узле от последнего. Перенаправляем указатели. Профит
-
+```
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
@@ -267,5 +267,54 @@ public:
         return dummy->next;
     }
 };
+```
 
+# Reorder list
+https://leetcode.com/problems/reorder-list/
+
+Given a singly linked list L: L0→L1→…→Ln-1→Ln,
+reorder it to: L0→Ln→L1→Ln-1→L2→Ln-2→…
+
+You may not modify the values in the list's nodes, only nodes itself may be changed.
+
+Как: решение в 3 этапа. 
+1. Сначала находим середину листа. Если колич-во узлов четное и в середине 2 узла - второй из них. Находим по методу "кролика и черепахи"
+Кролик бежит по узлам в 2 раза быстрее, поэтому, когда он достигнет конца списка, черепаха будет в середине.
+2. Разворачиваем вторую половину листа
+3. Сливаем полученные листы в духе сортировки слиянием
+
+
+class Solution {
+public:
+	void reorderList(ListNode* head) {
+		if ( ! head ) return;
+		ListNode *slow = head, *fast = head;
+		while ( fast->next && fast->next->next )
+		{
+			slow = slow->next;
+			fast = fast->next->next;
+		}
+			
+		
+		ListNode *prev = NULL, *cur = slow->next, *save;
+		while ( cur )
+		{
+			save = cur->next;
+			cur->next = prev;
+			prev = cur;
+			cur = save;
+		}
+			
+		slow->next = NULL;
+		
+		ListNode *head2 = prev;
+		while ( head2 )
+		{
+			save = head->next;
+			head->next = head2;
+			head = head2;
+			head2 = save;
+		}      
+	}
+};
 
