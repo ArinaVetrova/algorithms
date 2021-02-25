@@ -237,3 +237,35 @@ public:
         return dummy->next;
     }
 };
+
+Time: O(N)
+Space: O(1)
+
+- Решить за 1 проход
+Как: берем 2 указателя. Первый перемещаем на n+1 от начала, второй - на начале. Т.о. м-ж указателями разница в n узлов. Когда первый узел достигает конца, второй окажется на n-том узле от последнего. Перенаправляем указатели. Профит
+
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* dummy = new ListNode(0, head); // для случая [1] и надо удалить единственный узел
+        ListNode* first = dummy;
+        ListNode* second = dummy;
+        int i = 0;
+        while (second->next){
+            if (i < n){
+                i++;
+                second = second->next;
+            }
+            else
+            {
+                first = first->next;
+                second = second->next;
+            }
+        } 
+        first->next = first->next->next;
+        
+        return dummy->next;
+    }
+};
+
+
