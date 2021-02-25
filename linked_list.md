@@ -207,3 +207,33 @@ public:
 ```
 Time: O(N)
 Space: O(N) (новую память не занимаем. но она занята из-за особенности вызова рекурсивных функций, т.к. пока алгоритм идет вглубь рекурсии, в программе зранится весь стек вызовов и данные вызвавших ф-ций
+
+# Remove Nth node from end of list
+https://leetcode.com/problems/remove-nth-node-from-end-of-list/
+- Наивный алгоритм
+Как: We notice that the problem could be simply reduced to another one : Remove the (L - n + 1)(L−n+1) th node from the beginning in the list , where LL is the list length. This problem is easy to solve once we found list length L
+
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* dummy = new ListNode(); // этот узел нужен для случая когда на вход подается [1] и надо удалить единственный узел
+        dummy->next = head;
+        ListNode* curr = head;
+        size_t size = 0;
+        while (curr)
+        {
+            size++;
+            curr = curr->next;     
+        }
+        curr = dummy;
+        int i = 0;
+        while (curr && i < size-n)
+        { 
+            curr = curr->next;
+            i++;
+        }
+        curr->next = curr->next->next;
+        
+        return dummy->next;
+    }
+};
