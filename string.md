@@ -2,6 +2,8 @@
 -Longest Substring Without Repeating Characters
 https://leetcode.com/problems/longest-substring-without-repeating-characters/
 Given a string s, find the length of the longest substring without repeating characters.
+
+Sliding window
 ```
 class Solution {
 public:
@@ -24,3 +26,11 @@ public:
     }
 };
 ```
+
+- Longest Repeating Character Replacement
+https://leetcode.com/problems/longest-repeating-character-replacement/
+
+Подсчитать количество вхождений наиболее часто встречающегося символа в окне, вычесть эту величину из размера окна. Тем самым мы найдем наименьшее количество замен, которые необходимы, чтобы в данном окне все символы были одинаковыми.
+
+Если вдруг replaceCount > k, то необходимо сдвинуть окно вправо и уменьшить count. Например, есть строка ABAACA. Окно есть ABAAC, мы его сдвигаем и уменьшаем count, чтобы получить окно BAACA.
+
