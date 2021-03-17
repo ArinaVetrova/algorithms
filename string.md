@@ -32,5 +32,24 @@ https://leetcode.com/problems/longest-repeating-character-replacement/
 
 Подсчитать количество вхождений наиболее часто встречающегося символа в окне, вычесть эту величину из размера окна. Тем самым мы найдем наименьшее количество замен, которые необходимы, чтобы в данном окне все символы были одинаковыми.
 
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int right = 0, left = 0, maxLetter = 0;
+        int alphabet[26] = {0};
+        while(right < s.length()) {
+            alphabet[s[right] - 'A']++;
+            maxLetter = max(maxLetter, alphabet[s[right] - 'A']);
+            right++;
+            
+            if(right - left - maxLetter > k) {
+                alphabet[s[left] - 'A']--;
+                left++;
+            }
+        }
+        return right - left;
+    }
+};
+
 Если вдруг replaceCount > k, то необходимо сдвинуть окно вправо и уменьшить count. Например, есть строка ABAACA. Окно есть ABAAC, мы его сдвигаем и уменьшаем count, чтобы получить окно BAACA.
 
