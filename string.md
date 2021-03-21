@@ -265,3 +265,30 @@ public:
 };
 ```
 Time Complexity: O(N^2)
+
+-Is Subsequence
+https://leetcode.com/problems/is-subsequence/
+Given two strings s and t, check if s is a subsequence of t.
+
+```
+
+sarahCODER's avatar
+sarahCODER
+72
+Last Edit: June 9, 2020 7:03 PM
+
+597 VIEWS
+
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        int ps=0, pt=0;
+        while(ps<s.size() && pt<t.size()){
+           if(s[ps]==t[pt]) ps++;
+            pt++;
+        }
+        return ps==s.size();
+    }
+};
+```
+```
