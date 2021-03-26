@@ -146,5 +146,30 @@ Input: root = [3,9,20,null,null,15,7]
 Output: [[3],[9,20],[15,7]]
 
 ```
-
+class Solution {
+public:
+vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ans;
+        if(root==NULL) return ans;
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty())
+        {
+            vector<int> level;
+            int n=q.size();
+            for(int i=0;i<n;i++)
+            {
+            TreeNode* current = q.front();
+            level.push_back(current->val);
+            if(current->left!=NULL)
+                q.push(current->left);
+            if(current->right!=NULL)
+                q.push(current->right);
+            q.pop();
+            }
+            ans.push_back(level);
+        }
+       return ans; 
+    }
+};
 ```
