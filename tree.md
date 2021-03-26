@@ -68,3 +68,74 @@ class Solution {
       }
   };
 ```
+
+- Invert Binary Tree
+https://leetcode.com/problems/invert-binary-tree/
+
+Given the root of a binary tree, invert the tree, and return its root.
+Recirsive:
+Сама решила с первой попытки ^^
+```
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if (!root)
+            return nullptr;
+        TreeNode* left = root->left;
+        TreeNode* right = root->right;
+        root->left = right;
+        root->right = left;
+        
+        invertTree(left);
+        invertTree(right);
+        
+        return root;
+    }
+};
+```
+
+Iterative:
+через стек
+```
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if (!root) return root;
+        stack<TreeNode*> s;
+        s.push(root);
+        while (!s.empty()) {
+            TreeNode* node = s.top();
+            s.pop();
+            if (node) {
+                s.push(node->left);
+                s.push(node->right);
+                swap(node->left, node->right);
+            }
+        }
+        return root;
+    }
+};
+```
+
+- Path Sum
+https://leetcode.com/problems/path-sum/
+
+Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
+
+```
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if (!root)
+            return false;
+        targetSum -= root->val;
+        if (targetSum == 0 && !root->left || !root->right)
+            return true;
+           
+        return (hasPathSum(root->left, targetSum) || hasPathSum(root->right, targetSum));
+        
+    }
+};
+```
+
+
