@@ -201,3 +201,27 @@ private:
     }
 };
 ```
+
+- Найти все пути дерева
+(не на leetcode, но точно понадобится для других задач)
+Рекурсивно:
+
+```
+void collectAllPaths(TreeNode* root, std::vector<TreeNode*>& path, std::vector<std::vector<TreeNode*>>& res)
+{
+    if (!root)
+        return;
+
+    path.push_back(root);
+    if (!root->leftChild && !root->rightChild)
+        res.push_back(path);
+
+    if (root->leftChild)
+        collectAllPaths(root->leftChild, path, res);
+
+    if (root->rightChild)
+        collectAllPaths(root->rightChild, path, res);
+
+    path.pop_back();
+ }
+ ```
