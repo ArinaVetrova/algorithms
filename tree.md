@@ -26,6 +26,30 @@ public:
 };
 ```
 
+Iterative:
+```
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        int depth = 0;
+        if (!root) return depth;
+        queue<TreeNode*> level;
+        level.push(root);
+        while (!level.empty()) {
+            depth++;
+            int n = level.size();
+            for (int i = 0; i < n; i++) {
+                TreeNode* node = level.front();
+                level.pop();
+                if (node -> left) level.push(node -> left);
+                if (node -> right) level.push(node -> right);
+            }
+        }
+        return depth; 
+    } 
+};
+```
+
 - Same tree
 https://leetcode.com/problems/same-tree/
 Проверить, одинаковы деревья или нет
@@ -204,6 +228,7 @@ private:
 
 - Найти все пути дерева
 (не на leetcode, но точно понадобится для других задач)
+
 Рекурсивно:
 
 ```
@@ -225,3 +250,115 @@ void collectAllPaths(TreeNode* root, std::vector<TreeNode*>& path, std::vector<s
     path.pop_back();
  }
  ```
+ 
+- Binary Tree Level Order Traversal
+https://leetcode.com/problems/binary-tree-level-order-traversal/
+
+Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+
+```
+class Solution {
+public:
+vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ans;
+        if(root==NULL) return ans;
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty())
+        {
+            vector<int> level;
+            int n=q.size();
+            for(int i=0;i<n;i++)
+            {
+            TreeNode* current = q.front();
+            level.push_back(current->val);
+            if(current->left!=NULL)
+                q.push(current->left);
+            if(current->right!=NULL)
+                q.push(current->right);
+            q.pop();
+            }
+            ans.push_back(level);
+        }
+       return ans; 
+    }
+};
+```	
+
+- Subtree of Another Tree
+https://leetcode.com/problems/subtree-of-another-tree/
+
+Given two non-empty binary trees s and t, check whether tree t has exactly the same structure and node values with a subtree of s. 
+A subtree of s is a tree consists of a node in s and all of this node's descendants. The tree s could also be considered as a subtree of itself.
+ s:
+     3
+    / \
+   4   5
+  / \
+ 1   2
+ 
+ t:
+   4 
+  / \
+ 1   2
+ 
+ Return true, because t has the same structure and node values with a subtree of s.
+ 
+```
+class Solution {
+public:
+    bool ans=false;
+    
+    bool sametree(TreeNode* s, TreeNode* t)
+    {
+        if(s==NULL&&t==NULL) return true;
+        if(s==NULL&&t!=NULL) return false;
+        if(s!=NULL&&t==NULL) return false;
+
+        
+        if(s->val==t->val && sametree(s->left,t->left) && sametree(s->right,t->right))
+           return true;
+           
+           return false;
+
+    }
+    
+    void preorder(TreeNode* s, TreeNode* t)
+    {
+        if(s==NULL)
+            return;
+        
+        if(s->val==t->val)
+        {
+        bool val=sametree(s,t);
+        if(val==true)
+            ans=true;   
+        }
+        preorder(s->left,t);
+        preorder(s->right,t);
+    }
+    
+    
+    bool isSubtree(TreeNode* s, TreeNode* t) {
+        
+        if(s==NULL&&t==NULL) return true;
+        if(s==NULL&&t!=NULL) return false;
+        if(s!=NULL&&t==NULL) return false;
+
+        
+       preorder(s,t); 
+        
+        return ans;
+    }
+};
+```
+
+- Construct Binary Tree from Preorder and Inorder Traversal
+https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+
+Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.
+
+ 
+```
+
+```
