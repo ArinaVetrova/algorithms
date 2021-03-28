@@ -1,9 +1,12 @@
 - TREE
 Принцип, как решать задачи на деревья рекурсивно:
-https://leetcode.com/explore/learn/card/data-structure-tree/17/solve-problems-recursively/534/
+	https://leetcode.com/explore/learn/card/data-structure-tree/17/solve-problems-recursively/534/
+
+- Принцип BFS (обхода в ширину) с помощью очереди
+	https://leetcode.com/explore/learn/card/queue-stack/231/practical-application-queue/1372/
 
 Принцип, как решать задачи на деревья итеративно с помощью очереди:
-https://leetcode.com/explore/learn/card/data-structure-tree/134/traverse-a-tree/990/
+	https://leetcode.com/explore/learn/card/data-structure-tree/134/traverse-a-tree/990/
 
 ```
 /**
