@@ -4,8 +4,15 @@
 
 - Принцип BFS (обхода в ширину) с помощью очереди
 	https://leetcode.com/explore/learn/card/queue-stack/231/practical-application-queue/1372/
+	
+- Принцип DFS (Обход в глубину) с помощью стека
+	https://leetcode.com/explore/learn/card/queue-stack/232/practical-application-stack/1377/
+	Шаблон рекурсии:
+	https://leetcode.com/explore/learn/card/queue-stack/232/practical-application-stack/1384/
+	Шаблон итеративный со стеком:
+	https://leetcode.com/explore/learn/card/queue-stack/232/practical-application-stack/1385/
 
-Принцип, как решать задачи на деревья итеративно с помощью очереди:
+- Принцип, как решать задачи на деревья итеративно с помощью очереди:
 	https://leetcode.com/explore/learn/card/data-structure-tree/134/traverse-a-tree/990/
 
 ```
