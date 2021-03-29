@@ -49,7 +49,7 @@ https://leetcode.com/problems/intersection-of-two-linked-lists/
  - Как: пройтись по двум спискам и сравнить каждый узел 
  
  Это плохое решение в лоб  
- 
+``` 
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
@@ -65,11 +65,10 @@ public:
             }
             headB = headB->next;
         }
-
         return nullptr;
     }
 };
-
+```
 - Time: O(NxM)
 - Memory: O(1)
 
@@ -127,24 +126,28 @@ Space: o(N)
 Решение "Кролик и черепаха"
 Как: один узел шагает медленно -  смотрит на след узел, а второй бежит вперед и смотрит через узел, если в списке есть цикл, черепаха и кролик сравняются в одной из точек
 
+```
 class Solution {
 public:
-    ListNode *detectCycle(ListNode *head) {
-        ListNode* slow = head;
-        ListNode* fast = head;
-        
-        while(fast->next)
-        {
-            slow = slow->next;
-            fast = fast->next->next;
-            if (fast == slow)
-                return slow->next;
-        }
-           
-        return nullptr;
-    }
+ListNode *detectCycle(ListNode *head) {
+	ListNode* slow = head;
+	ListNode* fast = head;
+	while(fast && fast->next) {
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast) {
+			slow = head;
+			while (slow != fast) {
+				slow = slow->next;
+				fast = fast->next;
+			}
+			return slow;
+		}
+	}
+	return nullptr;
+}
 };
-
+```
 Time: O(N)
 Space: O(1)
 
