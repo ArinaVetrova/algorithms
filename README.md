@@ -26,32 +26,28 @@ https://cpp.mazurok.com/tag/bfs/
 BFS:
 
 ```
-#include <iostream>
-#include <queue>
-using namespace std;
-int main() {
-    // чтение исходных данных
-    int n, v;
-    cin >> n >> v;
-    int matrix[n][n];
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < n; j++)
-            cin >> matrix[i][j];
-    queue <int> plan; // план посещения в виде очереди
-    plan.push(--v);   // мы нумеруем с 0, а не с 1
-    matrix[v][v] = 1; // отмечаем, что эта вершина уже заносилась в план 
-    int counter = 1;  // начальную уже сосчитали
-    while (!plan.empty()) {
-        v = plan.front(); // посещаем следующую по плану вершину 
-        plan.pop();       // удаляем ее из плана посещения
-        for (int u = 0; u < n; u++) { // перебираем соседние с ней
-            if (matrix[v][u] and !matrix[u][u]) { // если новая, то
-                plan.push(u);     // добавляем ее в план
-                matrix[u][u] = 1; // отмечаем, что уже не новая
-                counter++;        // считаем, сколько было вершин
+/**
+ * Return the length of the shortest path between root and target node.
+ */
+int BFS(Node root, Node target) {
+    Queue<Node> queue;  // store all nodes which are waiting to be processed
+    int step = 0;       // number of steps neeeded from root to current node
+    // initialize
+    add root to queue;
+    // BFS
+    while (queue is not empty) {
+        step = step + 1;
+        // iterate the nodes which are already in the queue
+        int size = queue.size();
+        for (int i = 0; i < size; ++i) {
+            Node cur = the first node in queue;
+            return step if cur is target;
+            for (Node next : the neighbors of cur) {
+                add next to queue;
             }
+            remove the first node from queue;
         }
     }
-    cout << counter << endl;
+    return -1;          // there is no path from root to target
 }
 ```
