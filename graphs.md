@@ -136,3 +136,125 @@ private:
     }
 };
 ```
+- Clone Graph
+https://leetcode.com/problems/clone-graph/
+
+To clone a graph, you will need to traverse it. Both BFS and DFS are for this purpose. But that is not all you need. To clone a graph, you need to have a copy of each node and you need to avoid copying the same node for multiple times. So you still need a mapping from an original node to its copy.
+
+BFS
+
+```
+class Solution {
+public:
+    Node* cloneGraph(Node* node) {
+        if (!node) {
+            return NULL;
+        }
+        Node* copy = new Node(node -> val, {});
+        copies[node] = copy;
+        queue<Node*> todo;
+        todo.push(node);
+        while (!todo.empty()) {
+            Node* cur = todo.front();
+            todo.pop();
+            for (Node* neighbor : cur -> neighbors) {
+                if (copies.find(neighbor) == copies.end()) {
+                    copies[neighbor] = new Node(neighbor -> val, {});
+                    todo.push(neighbor);
+                }
+                copies[cur] -> neighbors.push_back(copies[neighbor]);
+            }
+        }
+        return copy;
+    }
+private:
+    unordered_map<Node*, Node*> copies;
+};
+```
+
+DFS
+```
+class Solution {
+public:
+    Node* cloneGraph(Node* node) {
+        if (!node) {
+            return NULL;
+        }
+        if (copies.find(node) == copies.end()) {
+            copies[node] = new Node(node -> val, {});
+            for (Node* neighbor : node -> neighbors) {
+                copies[node] -> neighbors.push_back(cloneGraph(neighbor));
+            }
+        }
+        return copies[node];
+    }
+private:
+    unordered_map<Node*, Node*> copies;
+};
+```
+
+- Number of Islands
+https://leetcode.com/problems/number-of-islands/
+
+BFS:
+```
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int m = grid.size(), n = m ? grid[0].size() : 0, islands = 0, offsets[] = {0, 1, 0, -1, 0};
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1') {
+                    islands++;
+                    grid[i][j] = '0';
+                    queue<pair<int, int>> todo;
+                    todo.push({i, j});
+                    while (!todo.empty()) {
+                        pair<int, int> p = todo.front();
+                        todo.pop();
+                        for (int k = 0; k < 4; k++) {
+                            int r = p.first + offsets[k], c = p.second + offsets[k + 1];
+                            if (r >= 0 && r < m && c >= 0 && c < n && grid[r][c] == '1') {
+                                grid[r][c] = '0';
+                                todo.push({r, c});
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return islands;
+    }
+};
+```
+
+Or I can erase all the connected '1's using DFS.
+```
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int m = grid.size(), n = m ? grid[0].size() : 0, islands = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1') {
+                    islands++;
+                    eraseIslands(grid, i, j);
+                }
+            }
+        }
+        return islands;
+    }
+private:
+    void eraseIslands(vector<vector<char>>& grid, int i, int j) {
+        int m = grid.size(), n = grid[0].size();
+        if (i < 0 || i == m || j < 0 || j == n || grid[i][j] == '0') {
+            return;
+        }
+        grid[i][j] = '0';
+        eraseIslands(grid, i - 1, j);
+        eraseIslands(grid, i + 1, j);
+        eraseIslands(grid, i, j - 1);
+        eraseIslands(grid, i, j + 1);
+    }
+};
+```
