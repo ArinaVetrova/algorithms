@@ -1,6 +1,6 @@
 # Intervals
 
-- Insert interval
+# Insert interval
   https://leetcode.com/problems/insert-interval/
 
 Given a set of non-overlapping intervals, insert a new interval into the intervals (merge if necessary).
@@ -32,7 +32,7 @@ public:
 };
 ```
 
-- Merge Intervals
+# Merge Intervals
 https://leetcode.com/problems/merge-intervals/
 Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.
 
@@ -63,7 +63,7 @@ public:
 	int eraseOverlapIntervals(vector<vector<int>>& intervals) {
 		int ans=-1;      
 		if(intervals.size()==0) return 0;       
-		sort(intervals.begin(),intervals.end(),comp);      //custom comperator is used.
+		sort(intervals.begin(),intervals.end(),comp);      //custom comparator is used.
 		vector<int> prev= intervals[0];
 
 		for(vector<int> i: intervals) {
