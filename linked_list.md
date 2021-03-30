@@ -442,6 +442,7 @@ public:
 # Sort list
 https://leetcode.com/problems/sort-list/
 Как: 
+Рекурсивно:
 1) находим середину
 2) сливаем 2 подмассива, проверяя  условие l1->val <= l2->val
 
