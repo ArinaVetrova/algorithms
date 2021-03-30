@@ -405,34 +405,36 @@ You may not modify the values in the list's nodes, only nodes itself may be chan
 class Solution {
 public:
 	void reorderList(ListNode* head) {
-		if ( ! head ) return;
-		ListNode *slow = head, *fast = head;
-		while ( fast->next && fast->next->next )
-		{
-			slow = slow->next;
-			fast = fast->next->next;
-		}
-			
-		
-		ListNode *prev = NULL, *cur = slow->next, *save;
-		while ( cur )
-		{
-			save = cur->next;
-			cur->next = prev;
-			prev = cur;
-			cur = save;
-		}
-			
-		slow->next = NULL;
-		
-		ListNode *head2 = prev;
-		while ( head2 )
-		{
-			save = head->next;
-			head->next = head2;
-			head = head2;
-			head2 = save;
-		}      
+		if (!head)
+            return;
+        
+        ListNode* slow = head; ListNode* fast = head;
+        while (fast && fast->next)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        ListNode* cur = slow->next;
+        ListNode* prev = nullptr;
+        while (cur)
+        {
+            ListNode* tmp = cur->next;
+            cur->next = prev;
+            prev = cur;
+            cur = tmp;
+        }
+        
+        slow->next = nullptr;
+        ListNode* head2 = prev;
+        
+        while(head2)
+        {
+            ListNode* tmp = head->next;
+            head->next = head2;
+            head = head2;
+            head2 = tmp;
+        }
 	}
 };
 ```
