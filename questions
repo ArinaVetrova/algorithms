@@ -3,7 +3,7 @@
 https://leetcode.com/problems/longest-repeating-character-replacement/
 
 Подсчитать количество вхождений наиболее часто встречающегося символа в окне, вычесть эту величину из размера окна. Тем самым мы найдем наименьшее количество замен, которые необходимы, чтобы в данном окне все символы были одинаковыми.
-
+```
 class Solution {
 public:
     int characterReplacement(string s, int k) {
@@ -22,5 +22,32 @@ public:
         return right - left;
     }
 };
-
+```
 Эта задача вообще не понятна. Почему вычетают 'A'? что это вообще за конструкция  alphabet[s[right] - 'A']++; ?
+
+
+Задача с поиском закольцованного участка в списке
+```
+Решение "Кролик и черепаха" Как: один узел шагает медленно - смотрит на след узел, а второй бежит вперед и смотрит через узел, если в списке есть цикл, черепаха и кролик сравняются в одной из точек
+
+class Solution {
+public:
+ListNode *detectCycle(ListNode *head) {
+	ListNode* slow = head;
+	ListNode* fast = head;
+	while(fast && fast->next) {
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast) {  // почему в этом месте нельзя сразу вернуть slow?
+			slow = head; 
+			while (slow != fast) {  //почему надо пройтись еще раз именно таким способом?
+				slow = slow->next;
+				fast = fast->next;
+			}
+			return slow;
+		}
+	}
+	return nullptr;
+}
+};
+```
