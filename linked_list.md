@@ -44,9 +44,10 @@ public:
 
 # Intersection linked lists
 https://leetcode.com/problems/intersection-of-two-linked-lists/
-Решила сама ^.^
+
  - Что: найти узел, начиная с которого листы сливаются
- - Как: пройтись по двум спискам и сравнить каждый узел 
+ - Как: пройтись по двум спискам и сравнить каждый узел. Для вложенного цикла завести временный указатель
+и при каждой итерации главного цикла направлять его на head заново.
  
  Это плохое решение в лоб  
 ``` 
@@ -74,7 +75,8 @@ public:
 
 
 Решение поизящнее 
-- Как: проходимся по одному из списков и переписываем его в хэш-таблицу(set) --> проходимся по второму списку и если есть такой элемент в hash table, то возвращаем его
+- Как: проходимся по одному из списков и переписываем его в хэш-таблицу(set) --> проходимся по второму списку и если есть такой элемент в hash table,
+то возвращаем его
 ```
 class Solution {
 public:
@@ -103,6 +105,7 @@ public:
 # Лист с закольцованным участком
 https://leetcode.com/problems/linked-list-cycle-ii/
 Решение в лоб
+Как: шагаем по списку, если этот узел не встречался в хэш-таблице - заносим, если есть в таблице - его и возвращаем.
 ```
 class Solution {
 public:
@@ -124,7 +127,7 @@ Time: O(N)
 Space: o(N)
 
 Решение "Кролик и черепаха"
-Как: один узел шагает медленно -  смотрит на след узел, а второй бежит вперед и смотрит через узел, если в списке есть цикл, черепаха и кролик сравняются в одной из точек
+Как: один узел шагает медленно -  смотрит на след узел, а второй бежит вперед и смотрит через узел, если в списке есть цикл, черепаха и кролик сравняются в одной из точек.
 
 ```
 class Solution {
@@ -214,7 +217,8 @@ Space: O(N) (новую память не занимаем. но она заня
 # Remove Nth node from end of list
 https://leetcode.com/problems/remove-nth-node-from-end-of-list/
 - Наивный алгоритм
-Как: We notice that the problem could be simply reduced to another one : Remove the (L - n + 1)(L−n+1) th node from the beginning in the list , where LL is the list length. This problem is easy to solve once we found list length L
+Как: Считаем длину списка, потом второй раз шагаем до узла (L - n ), начиная с dummy, перенапраялем указатель на следующий за удаляемым. Возвращаем dummy->next. 
+Завести узел-заглушку (dummy) dummy = new ListNode(); dummy->next = head;  этот узел нужен для случая когда на вход подается [1] и надо удалить единственный узел
 ```
 class Solution {
 public:
@@ -250,23 +254,17 @@ Space: O(1)
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode* dummy = new ListNode(0, head); // для случая [1] и надо удалить единственный узел
-        ListNode* first = dummy;
-        ListNode* second = dummy;
+        ListNode* dummy = new ListNode();
+        dummy->next = head;
+        ListNode* slow = dummy; ListNode* fast = dummy;
         int i = 0;
-        while (second->next){
-            if (i < n){
-                i++;
-                second = second->next;
-            }
-            else
-            {
-                first = first->next;
-                second = second->next;
-            }
-        } 
-        first->next = first->next->next;
-        
+        while(fast->next){
+            if (i>=n)
+                slow=slow->next; 
+            fast=fast->next;
+            i++; 
+        }
+        slow->next = slow->next->next;
         return dummy->next;
     }
 };
@@ -279,10 +277,12 @@ https://leetcode.com/problems/middle-of-the-linked-list/
 class Solution {
 public:
     ListNode* middleNode(ListNode* head) {
-        vector<ListNode*> A = {head};
-        while (A.back()->next != NULL)
-            A.push_back(A.back()->next);
-        return A[A.size() / 2];
+        vector<ListNode*> vec;
+        while(head){
+            vec.push_back(head);
+            head=head->next;
+        }
+        return vec[vec.size()/2];
     }
 };
 ```
@@ -306,6 +306,85 @@ public:
     }
 ```
 Time: O(N)
+Space: O(1)
+
+# Merge Two Sorted Lists
+
+https://leetcode.com/problems/merge-two-sorted-lists/
+
+Merge two sorted linked lists and return it as a sorted list. The list should be made by splicing together the nodes of the first two lists.
+
+- Рекурсивный алгоритм
+Как: 
+```
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+         if (!l1 )
+             return l2;
+        else if (!l2)
+            returm l1;
+        else if (l1->val < l2->val){
+            l1->next = mergeTwoLists(l1->next, l2);
+            return l1;
+        }
+        else
+        {
+            l2->next =  mergeTwoLists(l1, l2->next);
+            return l2;
+        }
+    }
+};
+```
+Time: O(N+M)
+Space: O(n + m)O(n+m)
+The first call to mergeTwoLists does not return until the ends of both l1 and l2 have been reached, so n + mn+m stack frames consume O(n + m)O(n+m) space.
+
+- Итеративный алгоритм
+```
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        ListNode* prehead = new ListNode();
+        ListNode* prev = prehead;
+        
+       if (!l1 && !l2)
+            return nullptr;
+        if(!l1)
+            return l2;
+        if(!l2)
+            return l1;
+        
+        while (l1 && l2){
+            if (l1->val <= l2->val)
+            {
+                prev->next = l1;
+                l1=l1->next;
+            }
+            else
+            {
+                prev->next = l2;
+                l2=l2->next;
+            }
+            prev = prev->next;
+        }
+        
+        prev->next = l1 ? l1 : l2;
+        return prehead->next;
+    }
+};
+```
+Time: O(N+M)
 Space: O(1)
 
 # Reorder list
@@ -357,73 +436,6 @@ public:
 	}
 };
 ```
-
-# Merge Two Sorted Lists
-
-https://leetcode.com/problems/merge-two-sorted-lists/
-
-Merge two sorted linked lists and return it as a sorted list. The list should be made by splicing together the nodes of the first two lists.
-
-- Рекурсивный алгоритм
-Как: 
-```
-class Solution {
-public:
-    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-         if (!l1 )
-             return l2;
-        else if (!l2)
-            returm l1;
-        else if (l1->val < l2->val){
-            l1->next = mergeTwoLists(l1->next, l2);
-            return l1;
-        }
-        else
-        {
-            l2->next =  mergeTwoLists(l1, l2->next);
-            return l2;
-        }
-    }
-};
-```
-Time: O(N+M)
-Space: O(n + m)O(n+m)
-The first call to mergeTwoLists does not return until the ends of both l1 and l2 have been reached, so n + mn+m stack frames consume O(n + m)O(n+m) space.
-
-- Итеративный алгоритм
-```
-class Solution {
-public:
-    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-        if (!l1 || !l2)
-            return nullptr;
-        ListNode* prehead = new ListNode(0);
-        
-        ListNode* prev = prehead;
-        while(l1  && l2)
-        {
-            if (l1->val <= l2->val)
-            {
-                prev->next = l1;
-                l1 = l1->next;
-            }
-            else 
-            {
-                prev->next = l2;
-                l2 = l2->next;
-            }
-            prev = prev->next;
-                
-        // At least one of l1 and l2 can still have nodes at this point, so connect
-        // the non-null list to the end of the merged list.
-        prev->next = l1 == nullptr ? l2 : l1;
-        }
-        return prehead->next;
-    }
-};
-```
-Time: O(N+M)
-Space: O(1)
 
 # Sort list
 https://leetcode.com/problems/sort-list/
