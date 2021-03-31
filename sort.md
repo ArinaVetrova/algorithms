@@ -109,3 +109,91 @@ void MergeSort(vector<int>& values) {
   }
 }
  ```
+ 
+ 
+ Все вместе для тренировки на leetCode:
+ 
+ ```
+ //     void quickSort(vector<int>& val)
+//     {
+//         if (val.size()<=1)
+//             return;
+//         QuickSort_In(val, 0, val.size()-1);
+//     }
+    
+    //bubble sort
+    //void bubbleSort(vector<int>& val){
+    //     for (int i=0; i< val.size(); i++)
+    //     {
+    //         for (int j=1; j<val.size()-i; j++){
+    //             if (val[j-1]>val[j])
+    //                 swap(val[j-1], val[j]);
+    //         }
+    //     }
+    // }
+    
+    // void insertionSort(vector<int>& val)
+    // {
+    //     for (int i=0; i < val.size(); i++)
+    //     {
+    //         int x = val[i];
+    //         int j = i;
+    //         while (j>0 && val[j-1] > x)
+    //         {
+    //             val[j] = val[j-1];
+    //             --j;
+    //         }
+    //         val[j]=x;
+    //     }
+    // }
+        
+    // void selectionSort(vector<int>& val)
+    // {
+    //     for (auto i = val.begin(); i != val.end(); i++)
+    //     {
+    //         auto j = std::min_element(i, val.end());
+    //         swap(*i,*j);
+    //     }
+    // }
+    
+    void mergeSort_In(vector<int>& val, vector<int>& buf, int l, int r)
+    {
+        if (l<r)
+        {
+            int m = (l+r)/2;
+            mergeSort_In(val, buf, l, m);
+            mergeSort_In(val, buf, m+1, r); 
+            int k = l;
+            for (int i=l, j=m+1; i<=m || j <=r;)
+            {
+                if ((j>r) || (i<=m && (val[i] < val[j])))
+                    buf[k++] = val[i++];
+                else
+                    buf[k++] = val[j++];
+            }
+            for (int i=0;i<=r;i++)
+            {
+                val[i] = buf[i];
+            }
+        }
+    }
+    
+    void mergeSort(vector<int>& val)
+    {
+        if  (val.size()>=1)
+        {
+            vector<int> buf(val.size());
+            mergeSort_In(val, buf, 0, val.size()-1);
+        }
+    }
+    
+    vector<int> sortArray(vector<int>& values) {
+        //quickSort(values);
+        //bubbleSort(values);
+       // insertionSort(values);
+       // selectionSort(values);
+        mergeSort(values);
+        return values;
+    }
+};
+```
