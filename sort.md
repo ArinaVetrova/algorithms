@@ -40,34 +40,45 @@ void SelectionSort(vector<int>& values) {
  ```
  
  # Быстрая
- Еще статья про быструю сортировку  https://prog-cpp.ru/sort-fast/
+Статья с норм реализацией (у яндекса что-то непонятное)  https://acmp.ru/asp/do/index.asp?main=topic&id_course=1&id_section=7&id_topic=119
  ```
- int Partition(vector<int>& values, int l, int r) {
-  int x = values[r];
-  int less = l;
-
-  for (int i = l; i < r; ++i) {
-    if (values[i] <= x) {
-      swap(values[i], values[less]);
-      ++less;
+class Solution {
+public:
+    //merge sort
+    
+    void QuickSort_In(vector<int>& val, int l, int r)
+    {
+        if(l<r){
+        int pivot_idx = (l+r)/2;
+        int x = val[pivot_idx];
+        int i = l, j = r;
+        while(i <= j){
+            while(val[i] < x) 
+                i++;
+            while(val[j] > x) 
+                j--;
+            if(i<=j) 
+                swap(val[i++],val[j--]);
+        }
+            QuickSort_In(val, l, j);
+            QuickSort_In(val, i, r);
+     }
     }
-  }
-  swap(values[less], values[r]);
-  return less;
-}
-
-void QuickSortImpl(vector<int>& values, int l, int r) {
-  if (l < r) {
-    int q = Partition(values, l, r);
-    QuickSortImpl(values, l, q - 1);
-    QuickSortImpl(values, q + 1, r);
-  }
-}
-
-void QuickSort(vector<int>& values) {
-  if (!values.empty()) {
-    QuickSortImpl(values, 0, values.size() - 1);
-  }
+    
+    
+    void quickSort(vector<int>& val)
+    {
+        if (val.size()<=1)
+            return;
+        QuickSort_In(val, 0, val.size()-1);
+    }
+    
+    vector<int> sortArray(vector<int>& values) {
+        quickSort(values);
+        return values;
+    }
+    
+};
  ```
  
  # Слиянием
@@ -80,15 +91,11 @@ void QuickSort(vector<int>& values) {
 
     int k = l;
     for (int i = l, j = m + 1; i <= m || j <= r; ) {
-      if (j > r || (i <= m && values[i] < values[j])) {
-        buffer[k] = values[i];
-        ++i;
-      } else {
-        buffer[k] = values[j];
-        ++j;
+      if (j > r || (i <= m && values[i] < values[j])) 
+        buffer[k++] = values[i++];
+      else 
+        buffer[k++] = values[j++];
       }
-      ++k;
-    }
     for (int i = l; i <= r; ++i) {
       values[i] = buffer[i];
     }
